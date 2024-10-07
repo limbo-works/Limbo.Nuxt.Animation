@@ -88,42 +88,24 @@ function onEnter({ boundingClientRect }) {
 		setAnimationFrameQueue(
 			() => {
 				classes.value.add(`${props.name}-enter-from`);
-
-				if (props.axis == 'block') {
-					const d = getDirection(boundingClientRect);
-					d && classes.value.add(`${props.name}-origin-bottom`);
-					!d && classes.value.add(`${props.name}-origin-top`);
-				}
-
-				if (props.axis == 'inline') {
-					const d = getDirection(boundingClientRect);
-					d && classes.value.add(`${props.name}-origin-right`);
-					!d && classes.value.add(`${props.name}-origin-left`);
-				}
+				setDirectionClasses(boundingClientRect);
 			},
 			() => {
 				classes.value.add(`${props.name}-enter-active`);
 			},
 			() => {
-				classes.value.delete(`${props.name}-enter-from`);
-				classes.value.delete(`${props.name}-outside-view`);
-				classes.value.delete(`${props.name}-origin-bottom`);
-				classes.value.delete(`${props.name}-origin-top`);
+				clear(), emit('enter');
 				classes.value.add(`${props.name}-enter-to`);
 				classes.value.add(`${props.name}-in-view`);
-				emit('enter');
 
-				const propDuration = props.leaveDuration ?? props.duration;
-				const styleDuration = extractTimingStyle(
-					target.value,
-					'transitionDuration'
-				);
+				const pd = props.leaveDuration ?? props.duration;
+				const sd = extractTiming(target.value, 'transitionDuration');
 
 				timeout = setTimeout(() => {
 					classes.value.delete(`${props.name}-enter-active`);
 					classes.value.delete(`${props.name}-enter-to`);
 					emit('afterEnter');
-				}, propDuration ?? styleDuration);
+				}, pd ?? sd);
 			}
 		);
 	}, props.delay);
@@ -142,30 +124,15 @@ function onLeave({ boundingClientRect }) {
 		setAnimationFrameQueue(
 			() => {
 				classes.value.add(`${props.name}-leave-from`);
-
-				if (props.axis == 'block') {
-					const d = getDirection(boundingClientRect);
-					d && classes.value.add(`${props.name}-origin-bottom`);
-					!d && classes.value.add(`${props.name}-origin-top`);
-				}
-
-				if (props.axis == 'inline') {
-					const d = getDirection(boundingClientRect);
-					d && classes.value.add(`${props.name}-origin-right`);
-					!d && classes.value.add(`${props.name}-origin-left`);
-				}
+				setDirectionClasses(boundingClientRect);
 			},
 			() => {
 				classes.value.add(`${props.name}-leave-active`);
 			},
 			() => {
-				classes.value.delete(`${props.name}-leave-from`);
-				classes.value.delete(`${props.name}-in-view`);
-				classes.value.delete(`${props.name}-origin-right`);
-				classes.value.delete(`${props.name}-origin-left`);
+				clear(), emit('leave');
 				classes.value.add(`${props.name}-leave-to`);
 				classes.value.add(`${props.name}-outside-view`);
-				emit('leave');
 
 				const propDuration = props.leaveDuration ?? props.duration;
 				const styleDuration = extractTimingStyle(
@@ -183,13 +150,7 @@ function onLeave({ boundingClientRect }) {
 	}, props.delay);
 }
 
-function getDirection(rect) {
-	const y = (rect.top + rect.height / 2) / window.innerHeight;
-	const x = (rect.left + rect.width / 2) / window.innerWidth;
-	return props.axis === 'block' ? +(y >= 0.5) : +(x >= 0.5);
-}
-
-function extractTimingStyle(target, style) {
+function extractTiming(target, style) {
 	const duration = window.getComputedStyle(target)[style];
 	let [, number, unit] = duration.trim().match(/^([0-9.]*)(ms|s)$/);
 	return unit === 's' ? parseFloat(number) * 1000 : parseFloat(number);
@@ -200,5 +161,32 @@ function setAnimationFrameQueue(...functions) {
 		functions.shift()?.(d);
 		functions.length && setAnimationFrameQueue(...functions);
 	});
+}
+
+function setDirectionClasses(rect) {
+	const y = (rect.top + rect.height / 2) / window.innerHeight;
+	const x = (rect.left + rect.width / 2) / window.innerWidth;
+
+	if (props.axis == 'block') {
+		y > 0.5 && classes.value.add(`${props.name}-origin-bottom`);
+		y <= 0.5 && classes.value.add(`${props.name}-origin-top`);
+	}
+
+	if (props.axis == 'inline') {
+		x > 0.5 && classes.value.add(`${props.name}-origin-right`);
+		x <= 0.5 && classes.value.add(`${props.name}-origin-left`);
+	}
+}
+
+function clear() {
+	[
+		`${props.name}-enter-from`,
+		`${props.name}-leave-from`,
+		`${props.name}-outside-view`,
+		`${props.name}-origin-bottom`,
+		`${props.name}-origin-top`,
+		`${props.name}-origin-right`,
+		`${props.name}-origin-left`,
+	].forEach((c) => classes.value.delete(c));
 }
 </script>
