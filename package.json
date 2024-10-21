@@ -1,8 +1,8 @@
 {
-	"name": "my-nuxt-layer",
+	"name": "@limbo-works/nuxt-animation",
 	"type": "module",
-	"version": "1.0.0",
-	"main": "./nuxt.config.ts",
+	"version": "0.1.0",
+	"main": "./nuxt.config.js",
 	"scripts": {
 		"dev": "nuxi dev .playground",
 		"dev:prepare": "nuxt prepare .playground",
