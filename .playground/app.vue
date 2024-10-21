@@ -1,20 +1,26 @@
 <template>
 	<main>
 		<div class="container">
-			<TransitionAppear name="t-fade" root-margin="-200px">
+			<TransitionAppear name="t-fade" root-margin="0px">
 				<div class="item">Hello there!</div>
 			</TransitionAppear>
 
-			<TransitionAppear name="t-fade" root-margin="-200px">
+			<TransitionAppear name="t-fade" root-margin="0px">
 				<div class="item">Hello there!</div>
 			</TransitionAppear>
 
-			<TransitionAppear name="t-fade" root-margin="-200px">
+			<TransitionAppear name="t-fade" root-margin="0px">
 				<div class="item">Hello there!</div>
 			</TransitionAppear>
 		</div>
 	</main>
 </template>
+
+<script setup>
+const bezier1 = useCubicBezier(0.2, 0, 0.8, 1);
+const bezier2 = useCubicBezier(0.2, 0, 0.8, 1);
+const bezier3 = useCubicBezier(0.2, 0, 0.9, 1);
+</script>
 
 <style lang="postcss">
 body {
@@ -39,15 +45,13 @@ body {
 	opacity: 1;
 }
 
-.t-fade-enter-active,
-.t-fade-leave-active {
+.t-fade-enter-active {
 	&,
 	& > * {
 		transition: 0.75s cubic-bezier(0.2, 0, 0.2, 1);
 	}
 }
 
-.t-fade-leave-to,
 .t-fade-enter-from,
 .t-fade-outside-view {
 	& > * {
@@ -56,11 +60,11 @@ body {
 	}
 
 	&.t-fade-origin-top > * {
-		transform: translateY(-48px);
+		transform: translateY(-320px);
 	}
 
 	&.t-fade-origin-bottom > * {
-		transform: translateY(48px);
+		transform: translateY(320px);
 	}
 }
 </style>

@@ -44,6 +44,7 @@ const emit = defineEmits([
 
 const target = ref();
 const classes = ref(new Set([props.name, `${props.name}-outside-view`]));
+
 const observers = useState('_animation-observers', () => ({}));
 const targets = useState('_animation-observer-targets', () => new Map());
 
