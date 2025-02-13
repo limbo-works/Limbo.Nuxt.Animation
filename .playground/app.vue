@@ -1,26 +1,22 @@
 <template>
 	<main>
 		<div class="container">
-			<TransitionAppear name="t-fade" root-margin="0px">
+			<TransitionAppear name="t-fade">
 				<div class="item">Hello there!</div>
 			</TransitionAppear>
 
-			<TransitionAppear name="t-fade" root-margin="0px">
+			<TransitionAppear name="t-fade">
 				<div class="item">Hello there!</div>
 			</TransitionAppear>
 
-			<TransitionAppear name="t-fade" root-margin="0px">
+			<TransitionAppear name="t-fade">
 				<div class="item">Hello there!</div>
 			</TransitionAppear>
 		</div>
 	</main>
 </template>
 
-<script setup>
-const bezier1 = useCubicBezier(0.2, 0, 0.8, 1);
-const bezier2 = useCubicBezier(0.2, 0, 0.8, 1);
-const bezier3 = useCubicBezier(0.2, 0, 0.9, 1);
-</script>
+<script setup></script>
 
 <style lang="postcss">
 body {
@@ -48,7 +44,7 @@ body {
 .t-fade-enter-active {
 	&,
 	& > * {
-		transition: 0.75s cubic-bezier(0.2, 0, 0.2, 1);
+		transition: 2s cubic-bezier(0.2, 0, 0.2, 1);
 	}
 }
 
