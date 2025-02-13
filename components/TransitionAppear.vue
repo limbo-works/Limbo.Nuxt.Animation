@@ -77,6 +77,9 @@ function onIntersection(entries) {
 }
 
 function onEnter({ boundingClientRect }) {
+	clear();
+	clearTimeout(timeout);
+
 	timeout = setTimeout(() => {
 		clearTimeout(timeout);
 		emit('beforeEnter');
@@ -113,6 +116,9 @@ function onEnter({ boundingClientRect }) {
 }
 
 function onLeave({ boundingClientRect }) {
+	clear();
+	clearTimeout(timeout);
+
 	timeout = setTimeout(() => {
 		clearTimeout(timeout);
 		emit('beforeLeave');
@@ -136,7 +142,7 @@ function onLeave({ boundingClientRect }) {
 				classes.value.add(`${props.name}-outside-view`);
 
 				const propDuration = props.leaveDuration ?? props.duration;
-				const styleDuration = extractTimingStyle(
+				const styleDuration = extractTiming(
 					target.value,
 					'transitionDuration'
 				);
