@@ -1,0 +1,22 @@
+{
+	"name": "@limbo-works/nuxt-animation",
+	"type": "module",
+	"version": "0.0.0",
+	"main": "./nuxt.config.js",
+	"scripts": {
+		"dev": "nuxi dev .playground",
+		"dev:prepare": "nuxt prepare .playground",
+		"build": "nuxt build .playground",
+		"generate": "nuxt generate .playground",
+		"preview": "nuxt preview .playground",
+		"prettier": "prettier \"**/*.{js,vue,md,yml,css,scss,json}\"",
+		"lint": "yarn prettier --check . && yarn eslint --quiet .",
+		"lint:fix": "yarn prettier --write . && yarn eslint --fix --quiet ."
+	},
+	"devDependencies": {
+		"@limbo-works/lint-configs": "^1.1.0",
+		"nuxt": "^3.13.0",
+		"vue": "latest"
+	},
+	"packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+}
